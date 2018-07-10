@@ -23,12 +23,12 @@
 										<?php
                                             include('include/db.php');
                                            
-                                            $visitor = mysql_query("SELECT * FROM visitors WHERE phone=".$_REQUEST['phone'],$con);
+											$visitor = mysql_query("SELECT * FROM visitors LEFT JOIN session_codes on visitors.phone = session_codes.phone WHERE visitors.phone=".$_REQUEST['phone']." AND status = 0 ",$con);
                                             //echo "SELECT * FROM visitors WHERE phone='".$_REQUEST['phone']."' ";
                                             $row = mysql_fetch_array($visitor);
-                                            $visit = mysql_query("SELECT * FROM visit LEFT JOIN session_codes on visit.session_code = session_codes.code WHERE visitor_id='".$row['id']."' AND status= 0 ",$con);
-                                            $row1 = mysql_fetch_array($visit);
-                                            			
+											$visit = mysql_query("SELECT * FROM visit LEFT JOIN session_codes on visit.session_code = session_codes.code WHERE visitor_id=".$row['id']." AND status= 0 ",$con);
+											$row1 = mysql_fetch_array($visit);
+												
 										?>
                                         <h3><img src="images/if_success_47715.png" width="150" height="150"/><br>Appointment Booked Successfully!</h3>
                                         <h4>Appointment Details</h4>
