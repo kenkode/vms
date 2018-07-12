@@ -14,7 +14,13 @@
 			  	<h1 class="title"> <img src="images/vms.jpg" width="250" height="100"/><br>Visitor Management System (VMS)</h1>
 					<div class="panel panel-default">
 						<div class="panel-heading">
-							<h1 class="panel-title">Welcome To Visitor Management System (VMS)</h1>
+							<h1 class="panel-title">Welcome To Visitor Management System (VMS) 
+								<select id="login" style="float:right">
+									<option value="">Login As</option>
+									<option value="admin">Admin</option>
+									<option value="guard">Guard</option>
+								</select>
+							</h1>
 						</div>
 						<div class="panel-body">
 							<div class="conatiner">
@@ -77,6 +83,20 @@
 		
 		<script type="text/javascript" src="js/jquery-3.1.0.min.js"></script>
 		<script type="text/javascript" src="js/bootstrap.min.js"></script>
+
+		<script>
+		$(document).ready(function(){
+			$('select').on('change', function() {
+				if(this.value == 'admin'){
+				   window.location.href = '/vms/admin/';
+				}else if(this.value == 'guard'){
+				   window.location.href = '/vms/guard/';
+				}else{
+                   alert("Please select an option!")
+				}
+            })
+		});
+		</script>
 		
 	</body>
 </html>

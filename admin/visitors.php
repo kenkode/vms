@@ -27,6 +27,8 @@
 
     <link href="css/animate.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
+    <link href="css/plugins/dataTables/dataTables.bootstrap.css" rel="stylesheet">
+    <link href="css/plugins/dataTables/buttons.dataTables.min.css" rel="stylesheet">
 
 </head>
 
@@ -211,6 +213,11 @@
     <script src="js/plugins/dataTables/dataTables.bootstrap.js"></script>
     <script src="js/plugins/dataTables/dataTables.responsive.js"></script>
     <script src="js/plugins/dataTables/dataTables.tableTools.min.js"></script>
+    <script src="js/plugins/dataTables/dataTables.buttons.min.js"></script>
+    <script src="js/plugins/dataTables/jszip.min.js"></script>
+    <script src="js/plugins/dataTables/pdfmake.min.js"></script>
+    <script src="js/plugins/dataTables/vfs_fonts.js"></script>
+    <script src="js/plugins/dataTables/buttons.html5.min.js"></script>
 
     <!-- Custom and plugin javascript -->
     <script src="js/inspinia.js"></script>
@@ -224,7 +231,12 @@
     <script>
         $(document).ready(function() {
             $('.dataTables-example').DataTable({
-                
+                dom: 'Bfrtip',
+                buttons: [
+                    'excelHtml5',
+                    'csvHtml5',
+                    'pdfHtml5'
+                ]
             });
 
             /* Init DataTables */
