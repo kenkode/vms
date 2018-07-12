@@ -29,7 +29,7 @@
     <link href="css/style.css" rel="stylesheet">
     <link href="css/plugins/dataTables/dataTables.bootstrap.css" rel="stylesheet">
     <link href="css/plugins/dataTables/buttons.dataTables.min.css" rel="stylesheet">
-
+    <link href="css/plugins/datapicker/datepicker3.css" rel="stylesheet">
 </head>
 
 <body>
@@ -120,7 +120,18 @@
                 </div>
             </div>
             <div class="ibox-content">
-            
+            <table border="0" cellspacing="10" cellpadding="10" width="750">
+                <tbody>
+                    <tr>
+                        <td>Filter By Date of Visit</td>
+                        <td>From:</td>
+                        <td><input name="min" id="min" type="text"></td>
+                        <td>To:</td>
+                        <td><input name="max" id="max" type="text"></td>
+                    </tr>
+                </tbody>
+            </table>
+            <br>
             <table class="table table-striped table-bordered table-hover dataTables-example" >
             <thead>
             <tr>
@@ -222,7 +233,7 @@
     <!-- Custom and plugin javascript -->
     <script src="js/inspinia.js"></script>
     <script src="js/plugins/pace/pace.min.js"></script>
-
+    <script src="js/plugins/datapicker/bootstrap-datepicker.js"></script>
     <style>
 
     </style>
@@ -237,6 +248,48 @@
                     'csvHtml5',
                     'pdfHtml5'
                 ]
+            });
+
+            $.date = function(dateObject) {
+                var d = new Date(dateObject);
+                var day = d.getDate();
+                var month = d.getMonth() + 1;
+                var year = d.getFullYear();
+                if (day < 10) {
+                    day = "0" + day;
+                }
+                if (month < 10) {
+                    month = "0" + month;
+                }
+                var date = month + "/" + day + "/" + year;
+
+                return date;
+            };
+
+            $.fn.dataTable.ext.search.push(
+            function (settings, data, dataIndex) {
+                var min = $('#min').datepicker("getDate");
+                var max = $('#max').datepicker("getDate");
+                var startDate = new Date($.date(data[5]));
+                // console.log("date",startDate)
+                // console.log("from",min)
+                // console.log("to",max)
+                if (min == null && max == null) { return true; }
+                if (min == null && startDate <= max) { return true;}
+                if(max == null && startDate >= min) {return true;}
+                if (startDate <= max && startDate >= min) { return true; }
+                return false;
+            }
+            );
+
+       
+            $("#min").datepicker({ onSelect: function () { table.draw(); }, changeMonth: true, changeYear: true });
+            $("#max").datepicker({ onSelect: function () { table.draw(); }, changeMonth: true, changeYear: true });
+            var table = $('.dataTables-example').DataTable();
+
+            // Event listener to the two range filtering inputs to redraw on input
+            $('#min, #max').change(function () {
+                table.draw();
             });
 
             /* Init DataTables */
